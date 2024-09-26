@@ -1,0 +1,52 @@
+# Global
+# Ignorar node_modules y dist en cualquier lugar del proyecto
+node_modules
+dist
+dist-ssr
+*.local
+
+# Ignorar archivos de entorno
+.env
+.env.local
+.env.production
+.env.development
+.env.test
+
+# Ignorar logs globales
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json  # Puedes incluir algunas configuraciones específicas de VSCode
+.idea
+.DS_Store
+
+# Ignorar lockfiles si no los estás usando
+yarn.lock
+pnpm-lock.yaml
+package-lock.json
+
+# Backend (Si tu carpeta de backend se llama 'back')
+back/node_modules
+back/.env
+back/logs
+back/*.log
+
+# Frontend (Si tu carpeta de frontend se llama 'front')
+front/node_modules
+front/.env
+front/logs
+front/*.log
+
+# Otros
+# Ignorar posibles archivos de compilación específicos de ciertos entornos
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
