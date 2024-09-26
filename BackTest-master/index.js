@@ -37,6 +37,11 @@ export const db = createPool({
     queueLimit: 0
 })
 
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
 
 app.use(cors({
     origin: ["https://app-sis-andes.up.railway.app" ,"https://vivacious-enthusiasm-production.up.railway.app", "http://localhost:4173" , "http://localhost:5173" ],
