@@ -63,6 +63,13 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Redirigir todas las rutas al archivo index.html (si es una SPA, como React o Vue)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 
 const dir = path.join(__dirname, 'imagenes');
 if (!fs.existsSync(dir)) {
