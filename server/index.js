@@ -37,11 +37,12 @@ export const db = createPool({
     queueLimit: 0
 })
 
-app.use(express.static(path.join(__dirname, 'dist')));
+// Obtener __filename y __dirname en ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
-});
+// Usar __dirname como en CommonJS
+app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use(cors({
     origin: ["https://app-sis-andes.up.railway.app" ,"https://vivacious-enthusiasm-production.up.railway.app", "http://localhost:4173" , "http://localhost:5173" ],
@@ -62,9 +63,6 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const dir = path.join(__dirname, 'imagenes');
 if (!fs.existsSync(dir)) {
