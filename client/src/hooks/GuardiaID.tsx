@@ -14,6 +14,7 @@ const GuardiaID = (): string | null => {
                 const response = await Axios.get(`${host_server}/IDINST`, {
                     withCredentials: true,
                 });
+                console.log("IDINST FRONT"+response.data.IDINST);
                 setIDINST(response.data.IDINST);
             } catch (error: unknown) {
                 console.log('Error en la solicitud:', error); // Log de error general
@@ -26,7 +27,7 @@ const GuardiaID = (): string | null => {
                 }
             }
         };
-    
+
         obtenerDatosUsuario();
     }, [navigate]);
 

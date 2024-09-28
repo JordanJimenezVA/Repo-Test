@@ -41,11 +41,8 @@ export const db = createPool({
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Usar __dirname como en CommonJS
-app.use(express.static(path.join(__dirname, 'dist')));
-
 app.use(cors({
-    origin: ["https://app-sis-andes.up.railway.app" ,"https://vivacious-enthusiasm-production.up.railway.app", "http://localhost:4173" , "http://localhost:5173" ],
+    origin: ["http://localhost:8800", "http://localhost:3000", "http://localhost:4173", "http://localhost:5173" ],
     methods: ["POST", "GET", "DELETE", "PUT"],
     credentials: true,
 }));
@@ -65,10 +62,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Redirigir todas las rutas al archivo index.html (si es una SPA, como React o Vue)
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+
 
 
 const dir = path.join(__dirname, 'imagenes');
@@ -139,9 +133,8 @@ app.post('/Login', async (req, res) => {
 
                 res.cookie('token', token, {
                     httpOnly: true,
-                    secure: true,  // Railway utiliza HTTPS, por lo tanto, secure debe estar en true
-                    domain: '.up.railway.app',  // El dominio base, compartido entre el frontend y el backend
-                    sameSite: 'None',  // Necesario para habilitar cookies entre diferentes dominios/subdominios
+                    secure: true,  // Asegúrate de que esté en `false` para desarrollo local (sin HTTPS)
+                    sameSite: 'Lax',  // 'None' si estás haciendo peticiones entre dominios, 'Lax' para desarrollo local
                     maxAge: 24 * 60 * 60 * 1000  // 1 día
                 });
                 return res.json({ Status: "Success" });
@@ -1445,22 +1438,21 @@ app.get("/NombreUser", async (req, res) => {
     }
 });
 
-app.get("/IDINST", authenticateToken, async (req, res) => {
-    const rut = req.user.rut; // Ya se verifica en el middleware
-
+app.get('/IDINST', authenticateToken, async (req, res) => {
+    const rut = req.user.rut; // Extraído del token
     try {
-        const [rows] = await db.query("SELECT IDINST FROM usuarios WHERE RUTU = ?", [rut]);
-
-        if (rows.length > 0) {
-            return res.json({ IDINST: rows[0].IDINST });
-        } else {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
+      const [rows] = await db.query("SELECT IDINST FROM usuarios WHERE RUTU = ?", [rut]);
+      if (rows.length > 0) {
+        console.log("IDINST BACK:", rows[0].IDINST);  // Imprime el IDINST en la consola
+        return res.json({ IDINST: rows[0].IDINST });
+      } else {
+        return res.status(404).json({ error: 'Usuario no encontrado' });
+      }
     } catch (error) {
-        console.error('Error al consultar la base de datos:', error);
-        return res.status(500).json({ error: 'Error del servidor' });
+      console.error('Error al consultar la base de datos:', error);
+      return res.status(500).json({ error: 'Error del servidor' });
     }
-});
+  });
 
 
 
@@ -1521,4 +1513,9 @@ app.get("/VerLog/:IDL", async (req, res) => {
         console.error('Error al ejecutar la consulta:', error);
         res.status(500).json({ error: 'Error al ejecutar la consulta' });
     }
+});
+
+// Redirigir todas las rutas al archivo index.html (si es una SPA, como React o Vue)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
