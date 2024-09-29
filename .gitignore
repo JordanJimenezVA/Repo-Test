@@ -1,8 +1,6 @@
 # Global
 # Ignorar node_modules y dist en cualquier lugar del proyecto
 node_modules
-dist
-dist-ssr
 *.local
 
 # Ignorar archivos de entorno
