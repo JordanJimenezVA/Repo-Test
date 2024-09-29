@@ -42,7 +42,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(cors({
-    origin: ["http://localhost:8800", "http://localhost:3000", "http://localhost:4173", "http://localhost:5173" ],
+    origin: ["http://localhost:8800", "http://localhost:3000", "http://localhost:4173", "http://localhost:5173", "https://repo-test-production.up.railway.app" ],
     methods: ["POST", "GET", "DELETE", "PUT"],
     credentials: true,
 }));
