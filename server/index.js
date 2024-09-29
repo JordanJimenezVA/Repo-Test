@@ -135,6 +135,7 @@ app.post('/Login', async (req, res) => {
                     httpOnly: true,
                     secure: true,  // Asegúrate de que esté en `false` para desarrollo local (sin HTTPS)
                     sameSite: 'Lax',  // 'None' si estás haciendo peticiones entre dominios, 'Lax' para desarrollo local
+                    domain: up.railway.app,
                     maxAge: 24 * 60 * 60 * 1000  // 1 día
                 });
                 return res.json({ Status: "Success" });
