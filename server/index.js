@@ -132,10 +132,10 @@ app.post('/Login', async (req, res) => {
                 const token = jwt.sign({ rut }, secretKey, { expiresIn: '1d' });
 
                 res.cookie('token', token, {
-                    httpOnly: true,
+                    httpOnly: false,
                     secure: true,  // Asegúrate de que esté en `false` para desarrollo local (sin HTTPS)
                     sameSite: 'Lax',  // 'None' si estás haciendo peticiones entre dominios, 'Lax' para desarrollo local
-                    domain: '.up.railway.app',
+                    domain: 'repo-test-production.up.railway.app',
                     maxAge: 24 * 60 * 60 * 1000  // 1 día
                 });
                 return res.json({ Status: "Success" });

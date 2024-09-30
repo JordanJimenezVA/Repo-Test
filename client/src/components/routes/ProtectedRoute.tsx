@@ -8,9 +8,10 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
-  const token = Cookies.get('token');  // Asegúrate de que el token esté disponible en las cookies
-  console.log("Inicio de ProtectedRoute");  // Agregar al inicio del componente
-  console.log("Token leído:", token);  // Justo después de leer el token
+  const token = Cookies.get('token'); 
+  console.log("Inicio de ProtectedRoute");  
+  console.log("Token leído:", token); 
+  
   alert("Token leído: " + token);
   if (!token) {
     console.log("No se encontró el token, redirigiendo al login");
